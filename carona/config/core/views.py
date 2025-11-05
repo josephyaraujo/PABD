@@ -7,6 +7,7 @@ from .serializers import (
     UsuarioSerializer, PerfilUsuarioSerializer, VeiculoSerializer,
     CaronaSerializer, SolicitacaoSerializer, AvaliacaoSerializer, ChatSerializer
 )
+from .filters import CaronaFilter
 
 class UsuarioViewSet(viewsets.ModelViewSet):
     queryset = Usuario.objects.all()
@@ -32,9 +33,10 @@ class CaronaViewSet(viewsets.ModelViewSet):
     queryset = Carona.objects.all()
     serializer_class = CaronaSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-    filterset_fields = ['motorista', 'status', 'origem', 'destino']
+    filterset_fields = ['motorista', 'status', 'origem', 'destino', 'preco_por_pessoa', 'data_hora_saida']
     search_fields = ['origem', 'destino']
     ordering_fields = ['data_hora_saida', 'preco_por_pessoa']
+    filterset_class = CaronaFilter
     
     @action(detail=False, methods=['get'])
     def disponiveis(self, request):
